@@ -56,7 +56,7 @@ const VerticalLayout = (props: LayoutProps) => {
   const navigationBorderWidth = skin === 'bordered' ? 1 : 0
   const collapsedNavWidth = collapsedNavigationSize
 
-  // ** States
+  // ** Statess
   const [navVisible, setNavVisible] = useState<boolean>(false)
 
   // ** Toggle Functions
