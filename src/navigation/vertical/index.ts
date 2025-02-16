@@ -19,9 +19,6 @@ const navigation = (): VerticalNavItemsType => {
     case UserRole.ADMIN:
       return adminNavigation()
 
-    case UserRole.EDITOR:
-      return adminNavigation()
-
     default:
       return []
   }

@@ -11,8 +11,9 @@ import { useAuth } from 'src/hooks/useAuth'
 
 // import { UserRole } from 'src/shared/enums/UserRole.enum'
 // import dayjs from 'dayjs'
-import ViewAdminUsers from './users/view-users'
-import ViewTemplates from './view-templates'
+
+import ViewAdminUsers from '../users/view-users'
+import ViewTemplates from '../view-templates'
 
 const Home = () => {
   const { user } = useAuth()

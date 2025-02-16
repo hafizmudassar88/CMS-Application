@@ -5,12 +5,14 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 
 // import axios from 'axios'
+
 import { useEffect, useState } from 'react'
 import Avatar from 'src/@core/components/mui/avatar'
 import { useAuth } from 'src/hooks/useAuth'
 
 // import { UserRole } from 'src/shared/enums/UserRole.enum'
 // import dayjs from 'dayjs'
+
 import ViewAdminUsers from './users/view-users'
 import ViewTemplates from './view-templates'
 
@@ -24,9 +26,11 @@ const Home = () => {
 
   useEffect(() => {
     // Get current time
+
     const currentTime = new Date()
 
     // Set Colorado time zone
+
     const coloradoTime = currentTime.toLocaleString('en-US', {
       timeZone: 'America/Denver',
       hour12: true,
@@ -37,6 +41,7 @@ const Home = () => {
     const hour = parseInt(coloradoTime)
 
     // Determine the greeting based on the hour
+
     let newGreeting = ''
     if (hour >= 0 && hour < 12) {
       newGreeting = 'Hi Good Morning'
@@ -47,6 +52,7 @@ const Home = () => {
     }
 
     // Add an excited message to the greeting
+
     const excitedMessage = 'Welcome back to your dashboard!'
 
     // Combine the greeting with the excited message

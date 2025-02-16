@@ -1,8 +1,5 @@
 export enum UserRole {
-  ADMIN = 'Admin',
-  EDITOR = 'Editor',
-  CONTRIBUTOR = 'Contributor',
-  USER = 'User'
+  ADMIN = 'Admin'
 }
 
 export const UserRoleValues: UserRole[] = Object.values(UserRole)
