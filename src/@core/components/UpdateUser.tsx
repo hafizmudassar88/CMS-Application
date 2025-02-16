@@ -24,10 +24,16 @@ import * as yup from 'yup'
 import Icon from 'src/@core/components/icon'
 import { UserRoleValues } from '../../shared/enums/UserRole.enum'
 
+// ** Define State Interface for Password Visibility
+interface State {
+  showPassword: boolean
+}
+
+// ** Define Form Input Types
 interface FormInputs {
   username: string
   email: string
-  password: string
+  password?: string
   role: string
 }
 
@@ -37,7 +43,7 @@ const validationSchema = yup.object({
     .required('Username is required')
     .matches(
       /^[a-zA-Z0-9_-]{3,20}$/,
-      'Username must be 3-20 characters with no spaces, underscore or hypen is allowed'
+      'Username must be 3-20 characters with no spaces, underscore or hyphen is allowed'
     ),
   email: yup.string().email('Invalid email').required('Email is required'),
   password: yup.string().notRequired(),
@@ -46,9 +52,9 @@ const validationSchema = yup.object({
 
 const UpdateUser = (props: any) => {
   const [loading, setLoading] = useState<boolean>(false)
-  const [state, setState] = useState<State>({ password: '', showPassword: false })
+  const [state, setState] = useState<State>({ showPassword: false })
 
-  const { userDetails } = props
+  const { userDetails, handleUpdateUser, setShow } = props
 
   const {
     control,
@@ -60,14 +66,14 @@ const UpdateUser = (props: any) => {
     mode: 'onChange'
   })
 
-  // Reset form values when userDetails change
+  // ** Reset form values when userDetails change
   useEffect(() => {
     if (userDetails) {
       reset({
         username: userDetails.username || '',
         email: userDetails.email || '',
         password: '',
-        role: userDetails.role_id || '' // Ensure role_id is correctly set here
+        role: userDetails.role_id || '' // Ensure role_id is correctly set
       })
     }
   }, [userDetails, reset])
@@ -89,8 +95,8 @@ const UpdateUser = (props: any) => {
       })
 
       toast.success('User updated successfully')
-      props.handleUpdateUser(res.data.payload.user)
-      props.setShow(false)
+      handleUpdateUser(res.data.payload.user)
+      setShow(false)
     } catch (error: any) {
       console.error(error)
       toast.error(error.response?.data?.message || 'Something went wrong')
@@ -105,6 +111,7 @@ const UpdateUser = (props: any) => {
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
           <Grid container spacing={5}>
+            {/* Username Field */}
             <Grid item xs={12}>
               <FormControl fullWidth>
                 <Controller
@@ -123,6 +130,7 @@ const UpdateUser = (props: any) => {
               </FormControl>
             </Grid>
 
+            {/* Email Field */}
             <Grid item xs={12}>
               <FormControl fullWidth>
                 <Controller
@@ -141,6 +149,7 @@ const UpdateUser = (props: any) => {
               </FormControl>
             </Grid>
 
+            {/* Password Field */}
             <Grid item xs={12}>
               <FormControl fullWidth>
                 <InputLabel htmlFor='password' error={Boolean(errors.password)}>
@@ -172,6 +181,7 @@ const UpdateUser = (props: any) => {
               </FormControl>
             </Grid>
 
+            {/* Role Selection */}
             <Grid item xs={12}>
               <FormControl fullWidth>
                 <InputLabel>Role</InputLabel>
@@ -179,12 +189,7 @@ const UpdateUser = (props: any) => {
                   name='role'
                   control={control}
                   render={({ field }) => (
-                    <Select
-                      {...field}
-                      error={Boolean(errors.role)}
-                      value={field.value || ''} // Ensure role value is bound correctly
-                      disabled={loading}
-                    >
+                    <Select {...field} error={Boolean(errors.role)} disabled={loading}>
                       {UserRoleValues.map(role => (
                         <MenuItem key={role} value={role}>
                           {role}
@@ -197,10 +202,10 @@ const UpdateUser = (props: any) => {
               </FormControl>
             </Grid>
 
+            {/* Submit Button */}
             <Grid item xs={12}>
               <Button fullWidth variant='contained' size='large' type='submit' disabled={loading}>
-                {loading && <CircularProgress size={24} />}
-                Update User
+                {loading ? <CircularProgress size={24} sx={{ color: 'white', marginRight: 1 }} /> : 'Update User'}
               </Button>
             </Grid>
           </Grid>

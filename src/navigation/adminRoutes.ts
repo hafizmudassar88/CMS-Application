@@ -1,9 +1,9 @@
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
-import { AdminRouteObj } from './routes'
+import { HomeRouteObj, PlatformRouteObj, UsersRouteObj } from './routes'
 
 const adminNavigation = (): VerticalNavItemsType => {
-  return [AdminRouteObj]
+  return [HomeRouteObj, PlatformRouteObj, UsersRouteObj]
 }
 
 export default adminNavigation

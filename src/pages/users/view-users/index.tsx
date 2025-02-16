@@ -2,11 +2,11 @@ import { Typography } from '@mui/material'
 import React from 'react'
 import UserTable from 'src/@core/layouts/components/tables/userTable'
 
-function Index() {
+function ViewAdminUsers() {
   return (
     <>
       <Typography variant='h4' sx={{ mb: 5 }}>
-        Users Table
+        Admin Dashboard Users
       </Typography>
 
       <UserTable />
@@ -14,4 +14,4 @@ function Index() {
   )
 }
 
-export default Index
+export default ViewAdminUsers
