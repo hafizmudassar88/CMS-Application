@@ -3,11 +3,13 @@ import toast from 'react-hot-toast'
 import axios from 'axios'
 import { useState } from 'react'
 
-export const TemplateColumns: any = (handleUpdateUser: any, handleDeleteUser: any) => [
+export const TemplateColumns: any = () => [
   {
     header: 'Created By',
-    accessorKey: 'createdBy.username',
-    Cell: ({ cell }: any) => cell.getValue() || 'Unknown'
+    accessorKey: 'createdByDetails.username', // Use the populated data
+    Cell: ({ row }: any) => {
+      return row.original.createdByDetails?.username || 'Unknown'
+    }
   },
   {
     header: 'Status',
@@ -15,15 +17,17 @@ export const TemplateColumns: any = (handleUpdateUser: any, handleDeleteUser: an
     Cell: ({ cell, row }: any) => {
       const [status, setStatus] = useState(cell.getValue() || 'PENDING')
       const templateId = row.original._id // Assuming _id is the template ID
-      console.log('templateId', templateId)
+      // console.log('templateId', templateId)
       const handleStatusChange = async (event: any) => {
         const newStatus = event.target.value
         setStatus(newStatus)
 
         try {
           const token = localStorage.getItem('accessToken')
+          const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL // Read from env
+
           await axios.put(
-            'http://localhost:5000/api/template/update/status',
+            `${API_BASE_URL}/template/update/status`,
             {
               status: newStatus,
               templateId

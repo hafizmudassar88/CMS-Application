@@ -8,6 +8,7 @@ import toast from 'react-hot-toast'
 function TemplateTable() {
   const [data, setData] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL // Read from env
 
   useEffect(() => {
     const fetchTemplates = async () => {
@@ -16,7 +17,7 @@ function TemplateTable() {
 
         const token = localStorage.getItem('accessToken')
 
-        const response = await axios.get(`http://localhost:5000/api/template/all-sorted`, {
+        const response = await axios.get(`${API_BASE_URL}/template/all-sorted`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

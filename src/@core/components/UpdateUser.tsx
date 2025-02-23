@@ -82,21 +82,32 @@ const UpdateUser = (props: any) => {
     setState(prevState => ({ ...prevState, showPassword: !prevState.showPassword }))
   }
 
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL // Read from env
   const onSubmit = async (data: FormInputs) => {
     if (loading) return
     try {
       setLoading(true)
-      const res = await axios.post('/api/user/update', {
-        username: data.username,
-        email: data.email,
-        password: data.password || undefined,
-        role: data.role,
-        user_id: userDetails._id
-      })
+
+      const token = localStorage.getItem('accessToken') // Ensure token is stored in local storage
+
+      const res = await axios.put(
+        `${API_BASE_URL}/user/update-dashboard-user/${userDetails._id}`,
+        {
+          username: data.username,
+          email: data.email,
+          password: data.password || undefined, // Only send password if provided
+          role: data.role
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}` // Pass token in the headers
+          }
+        }
+      )
 
       toast.success('User updated successfully')
-      handleUpdateUser(res.data.payload.user)
-      setShow(false)
+      handleUpdateUser(res.data.user) // Update local state
+      setShow(false) // Close the modal
     } catch (error: any) {
       console.error(error)
       toast.error(error.response?.data?.message || 'Something went wrong')

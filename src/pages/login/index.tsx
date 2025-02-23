@@ -125,13 +125,14 @@ const LoginPage = () => {
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL // Read from env
 
   const onSubmit = async (data: FormData) => {
     const { username, password } = data
 
     try {
       // Use the provided auth service URL
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post(`${API_BASE_URL}/api/auth/login`, {
         identifier: username,
         password
       })

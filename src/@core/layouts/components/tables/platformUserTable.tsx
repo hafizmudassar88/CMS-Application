@@ -7,13 +7,14 @@ import { PlatformUserColumns } from './columns/platofrmTableColumns'
 function PlatformUserTable() {
   const [data, setData] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL // Read from env
 
   const handleDeleteUser = async (userId: string) => {
     try {
       setIsLoading(true)
 
       const token = localStorage.getItem('accessToken') // Ensure you're passing the token
-      const response = await axios.delete(`http://localhost:5000/api/user/delete-platform-user/${userId}`, {
+      const response = await axios.delete(`${API_BASE_URL}/user/delete-platform-user/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -38,7 +39,7 @@ function PlatformUserTable() {
 
         const token = localStorage.getItem('accessToken')
 
-        const response = await axios.get('http://localhost:5000/api/user/get-platform-users', {
+        const response = await axios.get(`${API_BASE_URL}/user/get-platform-users`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

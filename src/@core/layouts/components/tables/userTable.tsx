@@ -29,6 +29,7 @@ function UserTable() {
       setIsLoading(false)
     }
   }
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL // Read from env
 
   const columns = useMemo(() => UserColumns(handleUpdateUser, handleDeleteUser), [data])
   useEffect(() => {
@@ -37,7 +38,7 @@ function UserTable() {
         setIsLoading(true)
 
         const token = localStorage.getItem('accessToken') // Ensure token is used properly
-        const res = await axios.get('http://localhost:5000/api/user/get-admin-dashboard-users', {
+        const res = await axios.get(`${API_BASE_URL}/user/get-admin-dashboard-users`, {
           headers: { Authorization: `Bearer ${token}` }
         })
 
