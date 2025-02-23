@@ -127,23 +127,32 @@ const LoginPage = () => {
   })
 
   const onSubmit = async (data: FormData) => {
-    const { username, password } = data // Changed to 'username' to match API
+    const { username, password } = data
+
     try {
-      const response = await axios.post('/api/auth/login', { username, password }) // Correct payload
+      // Use the provided auth service URL
+      const response = await axios.post('http://localhost:5000/api/auth/login', {
+        identifier: username,
+        password
+      })
 
-      setMessage(response.data.message)
-      auth.setUser({ ...response.data.payload.user })
-      localStorage.setItem('userData', JSON.stringify(response.data.payload.user))
+      setMessage('Login successful')
 
-      if (response.data.message === 'Login successful') {
-        router.push('/')
-      }
+      // Store user token or session data
+      localStorage.setItem('accessToken', response.data.token)
+      localStorage.setItem('userData', JSON.stringify(response.data.user))
+
+      // Update Auth Context
+      auth.setUser(response.data.user)
+
+      // Redirect to dashboard or home
+      router.push('/home')
     } catch (error) {
       setError('username', {
         type: 'manual',
-        message: 'Username or Password is invalid'
+        message: 'Something went wrong. Please try again.'
       })
-      setMessage('Username or Password is invalid')
+      setMessage('Something went wrong. Please try again.')
     }
   }
 

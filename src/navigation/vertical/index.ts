@@ -1,7 +1,7 @@
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
 import adminNavigation from '../adminRoutes'
-import { UserRole } from 'src/shared/enums/UserRole.enum'
+import superAdminNavigation from '../superAdminRoutes'
 
 const navigation = (): VerticalNavItemsType => {
   let userData: any = ''
@@ -16,8 +16,10 @@ const navigation = (): VerticalNavItemsType => {
   }
 
   switch (role) {
-    case UserRole.ADMIN:
+    case 'ADMIN':
       return adminNavigation()
+    case 'SUPER_ADMIN':
+      return superAdminNavigation()
 
     default:
       return []

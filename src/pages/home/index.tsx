@@ -4,24 +4,17 @@ import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 
-// import axios from 'axios'
 import { useEffect, useState } from 'react'
 import Avatar from 'src/@core/components/mui/avatar'
 import { useAuth } from 'src/hooks/useAuth'
 
-// import { UserRole } from 'src/shared/enums/UserRole.enum'
-// import dayjs from 'dayjs'
-
 import ViewAdminUsers from '../users/view-users'
 import ViewTemplates from '../view-templates'
+import ViewPlatformUsers from '../platform-users/view-platform-users'
 
 const Home = () => {
   const { user } = useAuth()
   const [greeting, setGreeting] = useState('')
-
-  // const [expiringSoonForms, setExpiringSoonForms] = useState<any>([])
-  // const [expiringSoonHostingForms, setExpiringSoonHostingForms] = useState<any>([])
-  // const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     // Get current time
@@ -94,6 +87,7 @@ const Home = () => {
       </Grid>
       <ViewAdminUsers />
       <ViewTemplates />
+      {/* <ViewPlatformUsers /> */}
     </>
   )
 }

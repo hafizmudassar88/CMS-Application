@@ -1,11 +1,39 @@
 // import axios from 'axios'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import MuiTable from './MuiTable'
 import { TemplateColumns } from './columns/templatesTableColumns'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
 function TemplateTable() {
-  const [data] = useState<any[]>([])
-  const [isLoading] = useState(false)
+  const [data, setData] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      try {
+        setIsLoading(true)
+
+        const token = localStorage.getItem('accessToken')
+
+        const response = await axios.get(`http://localhost:5000/api/template/all-sorted`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        console.log(response)
+        setData(Array.isArray(response.data) ? response.data : [])
+        console.log('response.data.templates', response.data.templates)
+      } catch (error) {
+        console.error('Error fetching templates:', error)
+        toast.error('Failed to fetch templates. Please try again.')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchTemplates()
+  }, [])
 
   // const handleUpdateUser = (updatedUser: any) => {
   //   const newData = data.map(user => (user._id === updatedUser._id ? updatedUser : user))
@@ -30,7 +58,7 @@ function TemplateTable() {
   // }
 
   // const columns = useMemo(() => UserColumns(handleUpdateUser, handleDeleteUser), [data])
-  const columns = useMemo(() => TemplateColumns(), [data])
+  const columns = useMemo(() => TemplateColumns(), [])
 
   // useEffect(() => {
   //   const getData = async () => {
@@ -53,8 +81,8 @@ function TemplateTable() {
 
   return (
     <MuiTable
-      data={data}
-      columns={columns}
+      data={data || []} // Ensuring it's an array
+      columns={columns || []} // Ensuring it's an array
       options={{
         state: { isLoading }
       }}

@@ -15,6 +15,7 @@ import { useAuth } from 'src/hooks/useAuth'
 
 import ViewAdminUsers from './users/view-users'
 import ViewTemplates from './view-templates'
+import ViewPlatformUsers from './platform-users/view-platform-users'
 
 const Home = () => {
   const { user } = useAuth()
@@ -99,6 +100,7 @@ const Home = () => {
       </Grid>
       <ViewAdminUsers />
       <ViewTemplates />
+      <ViewPlatformUsers />
     </>
   )
 }

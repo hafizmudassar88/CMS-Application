@@ -12,7 +12,7 @@ export const UserColumns: any = (handleUpdateUser: any, handleDeleteUser: any) =
   },
   {
     header: 'Role',
-    accessorKey: 'role_id'
+    accessorKey: 'role'
   },
   {
     header: 'Created At',

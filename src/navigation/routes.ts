@@ -7,14 +7,14 @@ export const HomeRouteObj = {
 }
 export const PlatformRouteObj = {
   title: 'Platform Users',
-  path: '/',
+  path: '/platform-users/view-platform-users',
   action: 'read',
   subject: 'home',
   icon: 'mdi:account-group-outline'
 }
 
 export const UsersRouteObj = {
-  title: 'Users',
+  title: 'Dashboard Users',
   icon: 'mdi:account-multiple-outline',
   children: [
     {
@@ -24,10 +24,12 @@ export const UsersRouteObj = {
     {
       title: 'View Users',
       path: '/users/view-users'
-    },
-    {
-      title: 'View Users',
-      path: '/users/view-users'
     }
   ]
+}
+
+export const TemplateObj = {
+  title: 'View Templates',
+  icon: 'mdi:book-outline',
+  path: '/view-templates'
 }

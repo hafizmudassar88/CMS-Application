@@ -31,24 +31,27 @@ function UserTable() {
   }
 
   const columns = useMemo(() => UserColumns(handleUpdateUser, handleDeleteUser), [data])
-
   useEffect(() => {
-    const getData = async () => {
+    const getAdminUsers = async () => {
       try {
         setIsLoading(true)
-        const res = await axios.get('/api/user/get-all', {
-          headers: { authorization: localStorage.getItem('token') || '' }
+
+        const token = localStorage.getItem('accessToken') // Ensure token is used properly
+        const res = await axios.get('http://localhost:5000/api/user/get-admin-dashboard-users', {
+          headers: { Authorization: `Bearer ${token}` }
         })
-        setData(res.data.payload.users)
+
+        setData(res.data)
+        toast.success('Admin dashboard users loaded successfully')
       } catch (error) {
-        console.error('Error fetching data:', error)
-        toast.error('Network error. Please refresh the page.')
+        console.error('Error fetching admin users:', error)
+        toast.error('Failed to fetch admin users. Please try again.')
       } finally {
         setIsLoading(false)
       }
     }
 
-    getData()
+    getAdminUsers()
   }, [])
 
   return (
