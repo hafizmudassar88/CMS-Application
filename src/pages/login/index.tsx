@@ -132,7 +132,7 @@ const LoginPage = () => {
 
     try {
       // Use the provided auth service URL
-      const response = await axios.post(`${API_BASE_URL}/api/auth/login`, {
+      const response = await axios.post(`${API_BASE_URL}/auth/login`, {
         identifier: username,
         password
       })
