@@ -12,15 +12,18 @@ function UserTable() {
     const newData = data.map(user => (user._id === updatedUser._id ? updatedUser : user))
     setData(newData)
   }
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL // Read from env
 
   const handleDeleteUser = async (userId: string) => {
     try {
       setIsLoading(true)
-      await axios.delete('/api/user/delete', {
-        data: { user_id: userId },
-        headers: { authorization: localStorage.getItem('token') || '' }
+      const token = localStorage.getItem('accessToken') // Get token from local storage
+
+      await axios.delete(`${API_BASE_URL}/user/delete-dashboard-user/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` } // Pass token in headers
       })
-      setData(data.filter(user => user._id !== userId))
+
+      setData(data.filter(user => user._id !== userId)) // Remove user from UI
       toast.success('User deleted successfully')
     } catch (error) {
       console.error('Error deleting user:', error)
@@ -29,7 +32,6 @@ function UserTable() {
       setIsLoading(false)
     }
   }
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL // Read from env
 
   const columns = useMemo(() => UserColumns(handleUpdateUser, handleDeleteUser), [data])
   useEffect(() => {
