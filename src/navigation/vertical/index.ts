@@ -16,7 +16,7 @@ const navigation = (): VerticalNavItemsType => {
   }
 
   switch (role) {
-    case 'ADMIN':
+    case 'Admin':
       return adminNavigation()
     case 'SUPER_ADMIN':
       return superAdminNavigation()

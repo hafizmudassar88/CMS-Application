@@ -35,6 +35,7 @@ interface State {
 }
 
 interface FormInputs {
+  name: string
   username: string
   email: string
   password: string
@@ -43,6 +44,7 @@ interface FormInputs {
 
 // ** Default Values for Form
 const defaultValues: FormInputs = {
+  name: '',
   username: '',
   email: '',
   password: '',
@@ -51,12 +53,13 @@ const defaultValues: FormInputs = {
 
 // ** Validation Schema
 const validationSchema = yup.object({
+  name: yup.string().required('Name is required'),
   username: yup
     .string()
     .required('Username is required')
     .matches(
       /^[a-zA-Z0-9_-]{3,20}$/,
-      'Username must be 3-20 characters with no spaces, underscore or hypen is allowed'
+      'Username must be 3-20 characters with no spaces, underscore or hyphen is allowed'
     ),
   email: yup.string().email('Invalid email format').required('Email is required'),
   password: yup.string().required('Password is required'),
@@ -86,6 +89,8 @@ const CreateUserForm = () => {
     setState({ ...state, showPassword: !state.showPassword })
   }
 
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL // Read from env
+
   const onSubmit = async (data: FormInputs) => {
     if (loading) return
     try {
@@ -93,17 +98,19 @@ const CreateUserForm = () => {
 
       // Make API call to create the user
       await axios.post(
-        '/api/user/create',
+        `${API_BASE_URL}/user/create-dashboard-user`, // Correct endpoint
+
         {
+          name: data.name, // Include name field
           username: data.username,
           email: data.email,
           password: data.password,
           role: data.role
         },
-        { headers: { authorization: localStorage.getItem('token') } }
+        { headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` } } // Token included
       )
 
-      toast.success('User created successfully')
+      toast.success('Dashboard user created successfully')
       reset(defaultValues) // Reset the form fields
     } catch (error: any) {
       console.error(error)
@@ -115,10 +122,23 @@ const CreateUserForm = () => {
 
   return (
     <Card>
-      <CardHeader title='Create New User' />
+      <CardHeader title='Create New Dashboard User' />
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
           <Grid container spacing={5}>
+            {/* Name Field */}
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <Controller
+                  name='name'
+                  control={control}
+                  render={({ field }) => (
+                    <TextField label='Name' {...field} error={Boolean(errors.name)} helperText={errors.name?.message} />
+                  )}
+                />
+              </FormControl>
+            </Grid>
+
             {/* Username Field */}
             <Grid item xs={12}>
               <FormControl fullWidth>
@@ -200,10 +220,8 @@ const CreateUserForm = () => {
                   control={control}
                   render={({ field }) => (
                     <Select {...field} label='Role' error={Boolean(errors.role)}>
-                      <MenuItem value='Admin'>Admin</MenuItem>
-                      <MenuItem value='User'>User</MenuItem>
-                      <MenuItem value='Editor'>Editor</MenuItem>
-                      <MenuItem value='Contributor'>Contributor</MenuItem>
+                      <MenuItem value='ADMIN'>Admin</MenuItem>
+                      <MenuItem value='SUPER_ADMIN'>Super Admin</MenuItem>
                     </Select>
                   )}
                 />

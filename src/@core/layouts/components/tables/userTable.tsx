@@ -44,7 +44,12 @@ function UserTable() {
           headers: { Authorization: `Bearer ${token}` }
         })
 
-        setData(res.data)
+        // Sort so that SUPER_ADMIN appears first
+        const sortedData = res.data.sort((a: any, b: any) =>
+          a.role === 'SUPER_ADMIN' ? -1 : b.role === 'SUPER_ADMIN' ? 1 : 0
+        )
+
+        setData(sortedData)
         toast.success('Admin dashboard users loaded successfully')
       } catch (error) {
         console.error('Error fetching admin users:', error)

@@ -28,8 +28,11 @@ export const UserColumns: any = (handleUpdateUser: any, handleDeleteUser: any) =
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {/* Update user dialog */}
           <UpdateUserDialog userDetails={userDetails} handleUpdateUser={handleUpdateUser} />
-          {/* Delete user dialog */}
-          <DeleteUserDialog userDetails={userDetails} handleDeleteUser={handleDeleteUser} />
+
+          {/* Conditionally render delete dialog if user is NOT SUPER_ADMIN */}
+          {userDetails.role !== 'SUPER_ADMIN' && (
+            <DeleteUserDialog userDetails={userDetails} handleDeleteUser={handleDeleteUser} />
+          )}
         </div>
       )
     }
