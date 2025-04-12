@@ -25,9 +25,11 @@ function TemplateTable() {
         const rawTemplates = response.data
 
         // Log raw response for confirmation
+
         console.log('Raw templates:', rawTemplates)
 
         // Filter out resume templates
+
         const templates = Array.isArray(rawTemplates)
           ? rawTemplates.filter((t: any) => {
               const isResume = !!t.details?.resume
@@ -72,6 +74,7 @@ function TemplateTable() {
   // }
 
   // const columns = useMemo(() => UserColumns(handleUpdateUser, handleDeleteUser), [data])
+
   const columns = useMemo(() => TemplateColumns(), [])
 
   // useEffect(() => {
