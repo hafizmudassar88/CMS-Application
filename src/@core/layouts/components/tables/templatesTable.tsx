@@ -34,6 +34,7 @@ function TemplateTable() {
           ? rawTemplates.filter((t: any) => {
               const isResume = !!t.details?.resume
               console.log(`Template ${t._id} isResume:`, isResume)
+
               return !isResume // ✅ Keep only non-resume templates
             })
           : []
