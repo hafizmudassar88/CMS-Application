@@ -22,11 +22,21 @@ function TemplateTable() {
           }
         })
 
-        // Filter out templates that contain 'resume' in their details
-        const templates = Array.isArray(response.data.templates)
-          ? response.data.templates.filter((t: any) => !t.details?.resume)
+        const rawTemplates = response.data
+
+        // Log raw response for confirmation
+        console.log('Raw templates:', rawTemplates)
+
+        // Filter out resume templates
+        const templates = Array.isArray(rawTemplates)
+          ? rawTemplates.filter((t: any) => {
+              const isResume = !!t.details?.resume
+              console.log(`Template ${t._id} isResume:`, isResume)
+              return !isResume // ✅ Keep only non-resume templates
+            })
           : []
 
+        console.log('Filtered templates (non-resume):', templates)
         setData(templates)
       } catch (error) {
         console.error('Error fetching templates:', error)
