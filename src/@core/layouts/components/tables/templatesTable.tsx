@@ -14,7 +14,6 @@ function TemplateTable() {
     const fetchTemplates = async () => {
       try {
         setIsLoading(true)
-
         const token = localStorage.getItem('accessToken')
 
         const response = await axios.get(`${API_BASE_URL}/template/all-sorted`, {
@@ -22,9 +21,13 @@ function TemplateTable() {
             Authorization: `Bearer ${token}`
           }
         })
-        console.log(response)
-        setData(Array.isArray(response.data) ? response.data : [])
-        console.log('response.data.templates', response.data.templates)
+
+        // Filter out templates that contain 'resume' in their details
+        const templates = Array.isArray(response.data.templates)
+          ? response.data.templates.filter((t: any) => !t.details?.resume)
+          : []
+
+        setData(templates)
       } catch (error) {
         console.error('Error fetching templates:', error)
         toast.error('Failed to fetch templates. Please try again.')
