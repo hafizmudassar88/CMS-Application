@@ -1,5 +1,5 @@
 // import { Select, MenuItem, Button } from '@mui/material'
-import { Select, MenuItem } from '@mui/material'
+import { Select, MenuItem, Button } from '@mui/material'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import { useState } from 'react'
@@ -56,22 +56,22 @@ export const TemplateColumns: any = () => [
         </Select>
       )
     }
-  }
+  },
 
-  // {
-  //   header: 'Template Link',
-  //   accessorKey: '_id',
-  //   Cell: ({ cell }: any) => {
-  //     return (
-  //       <Button
-  //         variant='contained'
-  //         onClick={() => {
-  //           window.open(`https://diy-platform.vercel.app/templete/${cell.getValue()}`, '_blank')
-  //         }}
-  //       >
-  //         View Template
-  //       </Button>
-  //     )
-  //   }
-  // }
+  {
+    header: 'Template Link',
+    accessorKey: '_id',
+    Cell: ({ cell }: any) => {
+      return (
+        <Button
+          variant='contained'
+          onClick={() => {
+            window.open(`https://diy-platform.vercel.app/templete/${cell.getValue()}`, '_blank')
+          }}
+        >
+          View Template
+        </Button>
+      )
+    }
+  }
 ]
