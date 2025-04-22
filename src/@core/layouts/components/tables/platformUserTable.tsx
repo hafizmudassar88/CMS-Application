@@ -13,7 +13,7 @@ function PlatformUserTable() {
     try {
       setIsLoading(true)
 
-      const token = localStorage.getItem('accessToken') // Ensure you're passing the token
+      const token = localStorage.getItem('accessToken')
       const response = await axios.delete(`${API_BASE_URL}/user/delete-platform-user/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`

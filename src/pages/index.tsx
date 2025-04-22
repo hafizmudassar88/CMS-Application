@@ -21,9 +21,17 @@ const Home = () => {
   const { user } = useAuth()
   const [greeting, setGreeting] = useState('')
 
-  // const [expiringSoonForms, setExpiringSoonForms] = useState<any>([])
-  // const [expiringSoonHostingForms, setExpiringSoonHostingForms] = useState<any>([])
-  // const [loading, setLoading] = useState(true)
+  const [userDetails, setUserDetails] = useState<any>(null)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedUser = localStorage.getItem('userData')
+      if (storedUser) {
+        const parsed = JSON.parse(storedUser)
+        setUserDetails(parsed)
+      }
+    }
+  }, [])
 
   useEffect(() => {
     // Get current time
