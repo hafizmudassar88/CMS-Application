@@ -29,6 +29,7 @@ const Home = () => {
       if (storedUser) {
         const parsed = JSON.parse(storedUser)
         setUserDetails(parsed)
+        console.log(userDetails)
       }
     }
   }, [])
